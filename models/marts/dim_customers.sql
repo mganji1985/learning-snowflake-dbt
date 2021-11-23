@@ -13,7 +13,7 @@ orders as (
 
 payments as (
 
-    select * from {{ ref('stg_payments') }}
+    select * from {{ ref('fct_orders') }}
 
 ),
 
@@ -40,7 +40,7 @@ final as (
         customer_orders.first_order_date,
         customer_orders.most_recent_order_date,
         coalesce(customer_orders.number_of_orders, 0) as number_of_orders, 
-        customer_orders.lifetime_value 
+        coalesce(customer_orders.lifetime_value, 0) as lifetime_value
 
     from customers
 
@@ -48,4 +48,4 @@ final as (
 
 )
 
-select * from final
+select sum(lifetime_value) from final

@@ -6,14 +6,20 @@ with orders as (
      select * from {{ ref ('stg_payments')}}
 ),
 
-fct_orders as (
+payment_order as (
     select 
          order_id, 
-         customer_id, 
-         amount 
+         sum (case when payment.status='success' then amount end ) as amount
+    from payment 
+    group by 1
+), 
+
+final as (
+    select 
+        orders.customer_id, 
+        orders.order_id, 
+        coalesce(payment_order.amount, 0) as amount 
     from orders
-    join payment using (order_id)
+    left join payment_order using (order_id)
 )
-
-
-select * from fct_orders 
+select * from final 

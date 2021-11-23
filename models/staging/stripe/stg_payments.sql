@@ -1,8 +1,10 @@
 with stg_payments  as (
     select
-    id as order_id, 
-    amount
-from  stripe.payment where status='success'
+    id as payment_id, 
+    orderid as order_id,
+    status,
+    amount/100 as amount 
+from  stripe.payment 
 )
 
 select * from stg_payments
