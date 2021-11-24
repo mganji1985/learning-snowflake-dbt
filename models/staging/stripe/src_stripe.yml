@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: stripe
-    description: A clone of a Postgres application database.
+    description: A clone of a snowflake application database.
     database: dbt
     tables:
       - name: payment
