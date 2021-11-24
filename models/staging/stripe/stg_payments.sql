@@ -4,7 +4,7 @@ with stg_payments  as (
     orderid as order_id,
     status,
     amount/100 as amount 
-from  stripe.payment 
+from  {{ source ('stripe', 'payment') }}
 )
 
 select * from stg_payments
