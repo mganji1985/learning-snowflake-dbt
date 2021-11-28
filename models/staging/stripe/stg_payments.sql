@@ -3,7 +3,7 @@ with stg_payments  as (
     id as payment_id, 
     orderid as order_id,
     status,
-    amount/100 as amount 
+    {{cent_to_dollar('amount')}} as amount 
 from  {{ source ('stripe', 'payment') }}
 )
 
